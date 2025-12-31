@@ -1,0 +1,130 @@
+.TH VARC 1 "December 2025" "0.3.27" "VaultArchive Manual"
+.SH NAME
+varc \- file archiving utility
+.SH SYNOPSIS
+.B varc
+[\fIOPTIONS\fR] \fICOMMAND\fR [\fIARCHIVE\fR] [\fIFILES...\fR]
+.SH DESCRIPTION
+.B VaultArchive
+is a secure file archiving utility that creates, extracts, and manages compressed and encrypted archives.
+It supports multiple files and directories in a single archive file with AES-256 encryption and zlib compression.
+.SH COMMANDS
+.TP
+\fBcreate\fR, \fBc\fR, \fBpack\fR
+Create a new archive file
+.TP
+\fBextract\fR, \fBx\fR, \fBunpack\fR
+Extract files from an archive
+.TP
+\fBlist\fR, \fBl\fR
+List archive contents
+.TP
+\fBverify\fR, \fBv\fR
+Verify archive integrity
+.TP
+\fBadd\fR, \fa\fR
+Add files to an existing archive
+.TP
+\fBremove\fR, \fBrm\fR
+Remove files from an archive
+.TP
+\fBlock\fR
+Encrypt/lock an archive with a password
+.TP
+\fBunlock\fR
+Decrypt/unlock an archive
+.TP
+\fBhelp\fR
+Show help information
+.TP
+\fBversion\fR
+Show version information
+.SH OPTIONS
+.TP
+\fB\-\-help\fR, \fB\-h\fR
+Show help message and exit
+.TP
+\fB\-\-version\fR, \fB\-v\fR
+Show version information and exit
+.TP
+\fB\-\-password\fR, \fB\-p\fR \fI<PASSWORD>\fR
+Specify password for encryption/decryption
+.TP
+\fB\-\-encrypt\fR, \fB\-e\fR
+Enable encryption for the archive
+.TP
+\fB\-\-no-compress\fR
+Disable compression
+.TP
+\fB\-\-compress-level\fR \fI<0-9>\fR
+Set compression level (0=none, 1=fastest, 6=default, 9=best)
+.TP
+\fB\-\-overwrite\fR, \fB\-o\fR
+Overwrite existing files
+.TP
+\fB\-\-quiet\fR, \fB\-q\fR
+Suppress progress output
+.TP
+\fB\-\-raw\fR
+Raw output without formatting
+.SH FILE FORMAT
+.B VARC
+archive files use the following structure:
+.TP
+Header (64 bytes)
+Contains magic signature, version, flags, file count, and cryptographic parameters
+.TP
+Entry Headers
+Metadata for each file including path, size, and type
+.TP
+Data
+Compressed and/or encrypted file data
+.TP
+Checksums
+SHA-256 hashes for integrity verification
+.SH ENCRYPTION
+By default, archives use AES-256-CBC encryption with PBKDF2-HMAC-SHA256 key derivation.
+The default iteration count is 100,000 (OWASP recommended minimum).
+.SH EXAMPLES
+Create an archive:
+.RS
+.B varc create backup.varc ./documents
+.RE
+.PP
+Create an encrypted archive:
+.RS
+.B varc create \-\-encrypt \-\-password mypass backup.varc ./files
+.RE
+.PP
+Extract an archive:
+.RS
+.B varc extract backup.varc ./output
+.RE
+.PP
+List archive contents:
+.RS
+.B varc list backup.varc
+.RE
+.PP
+Verify archive integrity:
+.RS
+.B varc verify \-\-password mypass secure.varc
+.RE
+.SH ENVIRONMENT
+.TP
+VARCPASSWORD
+Can be set to avoid prompting for password (not recommended for security)
+.SH FILES
+.TP
+~/.varc_history
+Command history (if enabled)
+.SH AUTHOR
+Written by LotusOS Core
+.SH BUGS
+Report bugs to the project issue tracker.
+.SH SEE ALSO
+.BR zip (1), 
+.BR tar (1),
+.BR openssl (1)
+.SH COPYRIGHT
+Copyright \(co 2025 LotusOS Core. License MIT.
