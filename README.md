@@ -35,6 +35,8 @@
 - [License](#license)
 - [Support](#support)
 
+<mark>GUI edition comming soon</mark>
+
 ---
 
 ## Overview
